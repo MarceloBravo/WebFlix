@@ -1,20 +1,17 @@
 # Nombre del workflow
-name: CI/CD WebFlix
+name: Test WebFlix
 
-# Eventos que disparan el workflow
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+# Ejecutar solo en push
+on: push
 
-# Variables de entorno globales
+# Variables de entorno necesarias para los tests
 env:
   NODE_ENV: test
+  PORT: 3000
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +31,7 @@ jobs:
       run: npm test
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        PORT: 3000
 
     - name: Upload test coverage
       if: success()
@@ -41,36 +39,3 @@ jobs:
       with:
         name: coverage
         path: coverage/
-
-  deploy:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: webflix
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-    - name: Update ECS service
-      run: |
-        aws ecs update-service --cluster webflix-cluster --service webflix-service --force-new-deployment
