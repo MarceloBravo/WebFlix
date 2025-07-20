@@ -1,0 +1,25 @@
+# Dependencias
+node_modules
+npm-debug.log
+
+# Git
+.git
+.gitignore
+
+# Entorno
+.env
+.env.*
+
+# Desarrollo
+.vscode
+.idea
+*.swp
+*.swo
+
+# Testing
+coverage
+test
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
