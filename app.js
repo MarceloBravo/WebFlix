@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
  * @returns {string} Mensaje de bienvenida o acceso denegado según la presencia de SECRET_KEY
  */
 app.get('/', (req, res) => {
-    msg = process.env.SECRET_KEY ? 'Bienvenido a WebFlix, tu servidor de videos': 'No tienes acceso a nuestra web no cocnoces la clave secreta'
+    msg = process.env.SECRET_KEY ? 'Bienvenido a WebFlix, tu servidor de videos': 'Esta es WebFlix, pero no tienes acceso a nuestra web no cocnoces la clave secreta'
     res.send(msg);
 });
 
