@@ -55,8 +55,8 @@ jobs:
 
       - name: Crear repositorio ECR si no existe
         run: |
-          aws ecr describe-repositories --repository-names $ECR_REPOSITORY || \
-          aws ecr create-repository --repository-name $ECR_REPOSITORY
+          aws ecr describe-repositories --repository-names webflix || \
+          aws ecr create-repository --repository-name webflix
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -68,8 +68,8 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/webflix:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/webflix:$IMAGE_TAG
 
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.10
