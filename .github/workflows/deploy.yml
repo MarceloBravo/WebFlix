@@ -53,6 +53,26 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Verificar secrets de AWS
+        run: |
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "AWS_ACCESS_KEY_ID está vacío"
+          else
+            echo "AWS_ACCESS_KEY_ID está presente"
+          fi
+
+          if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+            echo "AWS_SECRET_ACCESS_KEY está vacío"
+          else
+            echo "AWS_SECRET_ACCESS_KEY está presente"
+          fi
+
+          if [ -z "${{ secrets.AWS_REGION }}" ]; then
+            echo "AWS_REGION está vacío"
+          else
+            echo "AWS_REGION está presente"
+          fi
+
       - name: Crear repositorio ECR si no existe
         run: |
           aws ecr describe-repositories --repository-names final_proyect_mod6_instance || \
