@@ -29,3 +29,9 @@ coverage/
 # OS
 .DS_Store
 Thumbs.db
+
+#Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
