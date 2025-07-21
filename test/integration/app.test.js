@@ -46,7 +46,7 @@ describe('Pruebas de integración para la API de WebFlix', () => {
         .get('/')
         .expect(200);
       
-      expect(response.text).toBe('No tienes acceso a nuestra web no cocnoces la clave secreta');
+      expect(response.text).toBe('Esta es WebFlix, pero no tienes acceso a nuestra web no cocnoces la clave secreta');
     });
   });
 });

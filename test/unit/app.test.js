@@ -42,6 +42,6 @@ describe('Tests para el endpoint /', () => {
     delete process.env.SECRET_KEY;
     const res = await request(app).get('/');
     expect(res.statusCode).toBe(200);
-    expect(res.text).toBe('No tienes acceso a nuestra web no cocnoces la clave secreta');
+    expect(res.text).toBe('Esta es WebFlix, pero no tienes acceso a nuestra web no cocnoces la clave secreta');
   });
 });
