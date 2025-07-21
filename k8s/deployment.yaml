@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webflix
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webflix
+  template:
+    metadata:
+      labels:
+        app: webflix
+    spec:
+      containers:
+      - name: webflix
+        image: ${ECR_REGISTRY}/webflix:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: webflix-secrets
+              key: secret-key
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webflix
+  namespace: default
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: webflix
