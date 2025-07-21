@@ -2,7 +2,7 @@
  * @fileoverview Servidor principal de WebFlix - Plataforma de streaming de videos
  * @requires express
  */
-
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
  * @returns {string} Mensaje de bienvenida o acceso denegado según la presencia de SECRET_KEY
  */
 app.get('/', (req, res) => {
-    msg = process.env.SECRET_KEY ? 'Bienvenido a WebFlix, tu servidor de videos': 'Esta es WebFlix, pero no tienes acceso a nuestra web no cocnoces la clave secreta'
+    msg = process.env.SECRET_KEY ? 'Bienvenido a WebFlix, tu servidor de videos': 'Esta es WebFlix, pero no tienes acceso a nuestra web no cocnoces la clave secreta' + process.env.SECRET_KEY
     res.send(msg);
 });
 

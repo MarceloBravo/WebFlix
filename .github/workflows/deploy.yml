@@ -93,4 +93,4 @@ jobs:
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
             docker stop webflix || true
             docker rm webflix || true
-            docker run -d --name webflix -p 80:3000 ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+            docker run -d --name webflix -p 80:3000 -e SECRET_KEY=${{ secrets.SECRET_KEY }} ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
